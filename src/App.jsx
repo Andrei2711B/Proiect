@@ -1,53 +1,49 @@
-/**
- * Application component
- *
- * To contain application wide settings, routes, state, etc.
- */
+// app.jsx
+import React, { useState } from 'react';
 
-import React from "react";
+function App() {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState('');
 
-import About from "./Components/About";
-import Footer from "./Components/Footer";
-import Header from "./Components/Header";
-import Home from "./Components/Home";
-import Portfolio from "./Components/Portfolio";
+  const addTask = () => {
+    if (newTask.trim() !== '') {
+      setTasks([...tasks, newTask]);
+      setNewTask('');
+    }
+  };
 
-import "./styles.css";
+  const deleteTask = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks.splice(index, 1);
+    setTasks(updatedTasks);
+  };
 
-/**
- * This object represents your information. The project is set so that you
- * only need to update these here, and values are passed a properties to the
- * components that need that information.
- *
- * Update the values below with your information.
- *
- * If you don't have one of the social sites listed, leave it as an empty string.
- */
-const siteProps = {
-  name: "Alexandrie Grenier",
-  title: "Web Designer & Content Creator",
-  email: "alex@example.com",
-  gitHub: "microsoft",
-  instagram: "microsoft",
-  linkedIn: "satyanadella",
-  medium: "",
-  twitter: "microsoft",
-  youTube: "Code",
-};
-
-const primaryColor = "#4E567E";
-const secondaryColor = "#D2F1E4";
-
-const App = () => {
   return (
-    <div id="main">
-      <Header />
-      <Home name={siteProps.name} title={siteProps.title} />
-      <About />
-      <Portfolio />
-      <Footer {...siteProps} primaryColor={primaryColor} secondaryColor={secondaryColor} />
+    <div style={{ backgroundColor: 'blue', color: 'green', padding: '20px' }}>
+      <h1 style={{ color: 'green' }}>Task Manager</h1>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index} style={{ marginBottom: '10px' }}>
+            {task}
+            <button onClick={() => deleteTask(index)} style={{ marginLeft: '10px', backgroundColor: 'red', color: 'white' }}>
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div>
+        <input
+          type="text"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          style={{ marginRight: '10px' }}
+        />
+        <button onClick={addTask} style={{ backgroundColor: 'red', color: 'white' }}>
+          Add Task
+        </button>
+      </div>
     </div>
   );
-};
+}
 
 export default App;
